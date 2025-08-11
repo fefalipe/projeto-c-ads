@@ -22,8 +22,8 @@ int main(){
 
     printf("Digite o nome da cidade: ");
     fgets(cidade1, 50, stdin);
-    cidade1[strcspn(cidade1, "\n")] = 0
-    /* Usei fgets para ler o nome da cidade, porque ele consegue ler nomes com espaços (ex: "Rio de Janeiro"). Ele é mais seguro para isso. 'stdin' significa que a leitura virá da entrada padrão (standard input), o teclado. 'strcspn' encontra a posição do \n, e substituímos por '\0', que é o caractere que finaliza uma string em C.*/
+    cidade1[strcspn(cidade1, "\n")] = 0;
+ /* Usei fgets para ler o nome da cidade, porque ele consegue ler nomes com espaços (ex: "Rio de Janeiro"). Ele é mais seguro para isso. 'stdin' significa que a leitura virá da entrada padrão (standard input), o teclado. 'strcspn' encontra a posição do \n, e substituímos por '\0', que é o caractere que finaliza uma string em C.*/
     
     printf("Digite a populacao: ");
     scanf("%d", &populacao1);
