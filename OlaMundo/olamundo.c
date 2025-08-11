@@ -2,15 +2,24 @@
 
 int main(){
     printf("Olá, Mundo!\n");
-    int idade = 33;
-    int quantidade = 1;
-    float altura = 1.71;/*valores menores*/
-    double peso = 90.3;/*valores maiores*/
-    char letra = 'F';
-    char nome[20] = "Felipe";
-
-    printf("A idade do %s é: %d\n", nome, idade);
-    printf("A altura é: %.2f\n", altura);
-    printf("A letra é: %c\n", letra);
+    int idade;
+    int quantidade;
+    float altura;/*valores menores*/
+    double peso;/*valores maiores*/
+    char letra;
+    char nome[20];
     
+    printf("Digite sua idade: ");
+    scanf("%d", &idade);
+    printf("A idade é: %d\n", idade);
+
+    printf("Digite sua altura: ");
+    scanf("%f", &altura);
+    printf("A idade é: %.2f\n", altura);
+
+    printf("Digite seu nome: ");
+    fgets(nome, 20, stdin);
+    nome[strcspn(nome, "\n")] = 0;
+    printf("O seu nome é: %s", nome);
+
 }
