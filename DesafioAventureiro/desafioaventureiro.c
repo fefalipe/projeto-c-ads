@@ -1,104 +1,165 @@
+/*
+ * Meu Jogo Super Trunfo Interativo em C
+ * Autor: Felipe Tavares
+ * Data: 12 de agosto de 2025
+ * Descrição: Este programa implementa um menu interativo com 'switch' e uma
+ * lógica de comparação com 'if-else' aninhado para determinar o vencedor
+ * ou um empate entre duas cartas pré-definidas.
+ */
+
 #include <stdio.h>
-#include <string.h> /*Adicionado para ativar a função strcspn no código*/
 
-int main(){
-    char estado1, estado2, codigo1[5], codigo2[5], cidade1[50], cidade2[50];
-    int populacao1, populacao2, pontosTuristicos1, pontosTuristicos2;
-    float area1, pib1, area2, pib2, densidade1, pibPerCapita1, densidade2, pibPerCapita2;
+int main() {
 
-    printf("---Cadastro da Carta 1 ---\n");
+    // =================================================================================
+    // ETAPA 1: MEUS DADOS DAS CARTAS (PRÉ-DEFINIDOS)
+    // =================================================================================
+    // Vou usar os mesmos dados do desafio anterior para manter o foco na nova lógica.
 
-    printf("Digite o estado (uma letra de A-H): \n");
-    scanf(" %c", &estado1);
+    // --- Dados da minha Carta 1 (São Paulo) ---
+    char  estado1[] = "SP";
+    char  cidade1[] = "Sao Paulo";
+    int   populacao1 = 12396372;
+    float area1 = 1521.11;
+    float pib1 = 763.8;
+    int   pontosTuristicos1 = 50;
 
-    printf("Digite o código da carta seguido da letra escolhida (ex: A01): \n");
-    scanf("%s", &codigo1);
+    // --- Dados da minha Carta 2 (Rio de Janeiro) ---
+    // Para testar o empate, vou deixar a população da carta 2 igual à da carta 1.
+    char  estado2[] = "RJ";
+    char  cidade2[] = "Rio de Janeiro";
+    int   populacao2 = 12396372; // Alterado para testar o empate!
+    float area2 = 1200.32;
+    float pib2 = 356.9;
+    int   pontosTuristicos2 = 30;
 
-    // A função scanf, ao ler o código acima, deixa o caractere '\n' (do Enter)
-    // no buffer de entrada. A próxima função (fgets) leria esse '\n' e pularia
-    // a vez do usuário. O getchar() abaixo 'consome' esse caractere de nova
-    // linha que ficou sobrando, limpando o caminho para o fgets.
-    getchar();
 
-    printf("Digite o nome da cidade: ");
-    fgets(cidade1, 50, stdin);
-    cidade1[strcspn(cidade1, "\n")] = 0;
- /* Usei fgets para ler o nome da cidade, porque ele consegue ler nomes com espaços (ex: "Rio de Janeiro"). Ele é mais seguro para isso. 'stdin' significa que a leitura virá da entrada padrão (standard input), o teclado. 'strcspn' encontra a posição do \n, e substituímos por '\0', que é o caractere que finaliza uma string em C.*/
-    
-    printf("Digite a populacao: ");
-    scanf("%d", &populacao1);
+    // =================================================================================
+    // ETAPA 2: MEUS CÁLCULOS DOS ATRIBUTOS DERIVADOS
+    // =================================================================================
+    // Vou calcular a densidade e o pib per capita como antes.
+    float densidade1 = (float)populacao1 / area1;
+    float pibPerCapita1 = (pib1 * 1000000000) / populacao1;
 
-    printf("Digite a area (em km2): ");
-    scanf("%f", &area1);
+    float densidade2 = (float)populacao2 / area2;
+    float pibPerCapita2 = (pib2 * 1000000000) / populacao2;
 
-    printf("Digite o PIB (em bilhoes): ");
-    scanf("%f", &pib1);
 
-    printf("Digite o numero de pontos turisticos: ");
-    scanf("%d", &pontosTuristicos1);
+    // =================================================================================
+    // ETAPA 3: MEU MENU INTERATIVO E LEITURA DA ESCOLHA
+    // =================================================================================
+    // Agora vou criar a interface para que o jogador possa interagir.
 
-    printf("\n--- Cadastro da Carta 2 ---\n");
+    printf("=======================================\n");
+    printf("--- Batalha Super Trunfo ---\n");
+    printf("=======================================\n\n");
+    printf("Escolha o atributo para a batalha:\n");
+    printf("1. Populacao\n");
+    printf("2. Area\n");
+    printf("3. PIB\n");
+    printf("4. Pontos Turisticos\n");
+    printf("5. Densidade Demografica (menor valor vence)\n");
+    printf("\nDigite sua escolha (1-5): ");
 
-    printf("Digite o estado (uma letra de A-H): ");
-    scanf(" %c", &estado2);
+    // Vou criar uma variável para guardar a escolha do usuário.
+    int escolha;
+    // E usar o scanf para ler o número que ele digitar.
+    scanf("%d", &escolha);
 
-    printf("Digite o codigo da carta (ex: B02): ");
-    scanf("%s", codigo2);
+    printf("\n---------------------------------------\n");
 
-    getchar(); // Limpamos o buffer novamente para a leitura do nome da cidade 2.
 
-    printf("Digite o nome da cidade: ");
-    fgets(cidade2, 50, stdin);
-    cidade2[strcspn(cidade2, "\n")] = 0;
+    // =================================================================================
+    // ETAPA 4: MINHA LÓGICA DE DECISÃO COM SWITCH
+    // =================================================================================
+    // O 'switch' vai olhar o valor da minha variável 'escolha' e pular para o
+    // 'case' correspondente.
 
-    printf("Digite a populacao: ");
-    scanf("%d", &populacao2);
+    switch (escolha) {
+        // Se o usuário digitou 1, o código deste bloco será executado.
+        case 1:
+            printf("Atributo escolhido: Populacao\n\n");
+            printf("Carta 1 (%s): %d\n", cidade1, populacao1);
+            printf("Carta 2 (%s): %d\n\n", cidade2, populacao2);
 
-    printf("Digite a area (em km2): ");
-    scanf("%f", &area2);
+            // Aqui uso a lógica if/else if/else para os 3 resultados possíveis.
+            if (populacao1 > populacao2) {
+                printf("Resultado: Carta 1 (%s) venceu!\n", cidade1);
+            } else if (populacao2 > populacao1) {
+                printf("Resultado: Carta 2 (%s) venceu!\n", cidade2);
+            } else {
+                printf("Resultado: Empate!\n");
+            }
+            break; // O 'break' é crucial, ele impede a execução dos próximos 'case'.
 
-    printf("Digite o PIB (em bilhoes): ");
-    scanf("%f", &pib2);
+        // Se o usuário digitou 2, este bloco será executado.
+        case 2:
+            printf("Atributo escolhido: Area\n\n");
+            printf("Carta 1 (%s): %.2f km2\n", cidade1, area1);
+            printf("Carta 2 (%s): %.2f km2\n\n", cidade2, area2);
 
-    printf("Digite o numero de pontos turisticos: ");
-    scanf("%d", &pontosTuristicos2);
+            if (area1 > area2) {
+                printf("Resultado: Carta 1 (%s) venceu!\n", cidade1);
+            } else if (area2 > area1) {
+                printf("Resultado: Carta 2 (%s) venceu!\n", cidade2);
+            } else {
+                printf("Resultado: Empate!\n");
+            }
+            break;
 
-    densidade1 = (float)populacao1 / area1;
-    pibPerCapita1 = (pib1 * 1000000000) / populacao1;
+        // E assim por diante para os outros atributos...
+        case 3:
+            printf("Atributo escolhido: PIB\n\n");
+            printf("Carta 1 (%s): %.2f bilhoes\n", cidade1, pib1);
+            printf("Carta 2 (%s): %.2f bilhoes\n\n", cidade2, pib2);
 
-    densidade2 = (float)populacao2 / area2;
-    pibPerCapita2 = (pib2 * 1000000000) / populacao2;
+            if (pib1 > pib2) {
+                printf("Resultado: Carta 1 (%s) venceu!\n", cidade1);
+            } else if (pib2 > pib1) {
+                printf("Resultado: Carta 2 (%s) venceu!\n", cidade2);
+            } else {
+                printf("Resultado: Empate!\n");
+            }
+            break;
 
-    printf("\n\n================================\n");
-    printf("--- Cartas Cadastradas com Sucesso ---\n");
-    printf("================================\n");
+        case 4:
+            printf("Atributo escolhido: Pontos Turisticos\n\n");
+            printf("Carta 1 (%s): %d\n", cidade1, pontosTuristicos1);
+            printf("Carta 2 (%s): %d\n\n", cidade2, pontosTuristicos2);
 
-    printf("\n# CARTA 1:\n");
-    printf("Estado: %c\n", estado1);
-    printf("Codigo: %s\n", codigo1);
-    printf("Nome da Cidade: %s\n", cidade1);
-    printf("Populacao: %d habitantes\n", populacao1);
+            if (pontosTuristicos1 > pontosTuristicos2) {
+                printf("Resultado: Carta 1 (%s) venceu!\n", cidade1);
+            } else if (pontosTuristicos2 > pontosTuristicos1) {
+                printf("Resultado: Carta 2 (%s) venceu!\n", cidade2);
+            } else {
+                printf("Resultado: Empate!\n");
+            }
+            break;
 
-    /*Uso do "%.2f" para formatar os números 'float' com exatamente duas casas decimais, como pedido no exemplo.*/
-    printf("Area: %.2f km2\n", area1);
-    printf("PIB: %.2f bilhoes de reais\n", pib1);
-    printf("Pontos Turisticos: %d\n", pontosTuristicos1);
-    printf("Densidade Populacional: %.2f hab/km2\n", densidade1);
-    printf("PIB per Capita: %.2f reais\n", pibPerCapita1);
+        // Este é o caso especial da Densidade, onde a regra é invertida.
+        case 5:
+            printf("Atributo escolhido: Densidade Demografica (menor vence)\n\n");
+            printf("Carta 1 (%s): %.2f hab/km2\n", cidade1, densidade1);
+            printf("Carta 2 (%s): %.2f hab/km2\n\n", cidade2, densidade2);
 
-    printf("\n# CARTA 2:\n");
-    printf("Estado: %c\n", estado2);
-    printf("Codigo: %s\n", codigo2);
-    printf("Nome da Cidade: %s\n", cidade2);
-    printf("Populacao: %d habitantes\n", populacao2);
-    printf("Area: %.2f km2\n", area2);
-    printf("PIB: %.2f bilhoes de reais\n", pib2);
-    printf("Pontos Turisticos: %d\n", pontosTuristicos2);    
-    printf("Densidade Populacional: %.2f hab/km2\n", densidade2);
-    printf("PIB per Capita: %.2f reais\n", pibPerCapita2);
+            // Vou inverter os operadores na minha condição.
+            if (densidade1 < densidade2) {
+                printf("Resultado: Carta 1 (%s) venceu!\n", cidade1);
+            } else if (densidade2 < densidade1) {
+                printf("Resultado: Carta 2 (%s) venceu!\n", cidade2);
+            } else {
+                printf("Resultado: Empate!\n");
+            }
+            break;
 
-    printf("\n"); /*Uma linha em branco no final para melhor organização.*/
+        // O 'default' é o bloco executado se a minha variável 'escolha' não
+        // corresponder a nenhum dos 'case' acima. É meu tratamento de erro.
+        default:
+            printf("Opcao invalida! Por favor, execute novamente e escolha um numero de 1 a 5.\n");
+            break;
+    }
 
-    return 0; // Finaliza o programa com sucesso.
+    printf("\n---------------------------------------\n");
 
+    return 0; // Fim do meu programa.
 }
